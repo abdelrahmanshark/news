@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news/providers/app_theme_provider.dart';
 import 'package:news/ui/home/home_screen.dart';
+import 'package:news/ui/news_screen/news_screen.dart';
 import 'package:news/utils/app_const.dart';
 import 'package:news/utils/app_routes.dart';
 import 'package:news/utils/app_themes.dart';
@@ -20,12 +21,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     AppConst appConst = AppConst(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       themeMode:appConst.themeProvider.appTheme ,
       darkTheme:AppThemes.darkTheme ,
       theme: AppThemes.lightTheme,
       initialRoute: AppRoutes.homeScreenRouteName,
       routes: {
         AppRoutes.homeScreenRouteName: (context) => const HomeScreen(),
+        AppRoutes.newsScreenRouteName:(context)=>  NewsScreen()
+
       },
     );
   }

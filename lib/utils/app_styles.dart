@@ -38,5 +38,15 @@ class AppStyles {
     fontSize: 14,
     fontWeight: FontWeight.normal,
   );
+  static final TextStyle blackBold24 = TextStyle(
+    color: AppColors.primaryDarkColor,
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  );
+  static final TextStyle whiteBold20 = TextStyle(
+    color: AppColors.primaryLightColor,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 
 }
