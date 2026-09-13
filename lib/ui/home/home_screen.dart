@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news/models/news_category.dart';
+import 'package:news/ui/home/home_screen_view_model.dart';
 import 'package:news/utils/app_colors.dart';
 import 'package:news/utils/app_const.dart';
-import 'package:news/utils/app_routes.dart';
 import 'package:news/utils/app_styles.dart';
 import 'package:news/widgets/drop_down_theme_menu.dart';
 
@@ -16,32 +15,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    HomeScreenViewModel homeScreenViewModel = HomeScreenViewModel(context: context);
     var appConst = AppConst(context);
-    List<NewsCategory> newsCategory = [
-      NewsCategory(title: "General",
-          id: 'general', image:  appConst.image.general,
-        ),
-      NewsCategory(
-          title: "Business",
-          id: 'business',
-          image: appConst.image.business),
-      NewsCategory(
-          title: "Sports",
-          id: 'sports',
-          image: appConst.image.sports),
-      NewsCategory(
-          title: "Technology",
-          id: 'technology',
-          image: appConst.image.technology),
-      NewsCategory(
-          title: "Entertainment",
-          id: 'entertainment',
-          image: appConst.image.entertainment),
-      NewsCategory(
-          title: "Science",
-          id: 'science',
-          image: appConst.image.science),
-    ];
     return Scaffold(
       appBar: AppBar(
         title: Text('Home',style: appConst.textStyle.headlineLarge,),
@@ -72,17 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.newsScreenRouteName,
-                        arguments: {
-                        'title':newsCategory[index].title,
-                          'id':newsCategory[index].id
-                        }
-                       );
+                      homeScreenViewModel.onTab(index);
                     },
-                    child: Image.asset(newsCategory[index].image,fit: BoxFit.cover,));
+                    child: Image.asset(homeScreenViewModel.newsCategory![index].image,fit: BoxFit.cover,));
               },
               separatorBuilder: (context, index) => SizedBox(height: 10,),
-              itemCount: newsCategory.length),
+              itemCount: homeScreenViewModel.newsCategory!.length),
         )
             ],
         ),

@@ -67,7 +67,7 @@ class _NewsContainerState extends State<NewsContainer> {
             ),
           ),
           SizedBox(height: 8,),
-          Expanded(child: Text(widget.articles.title!,style:appConst.textStyle.headlineLarge ,)),
+          Expanded(child: SingleChildScrollView(child: Text(widget.articles.title!,style:appConst.textStyle.headlineLarge ,))),
           Row(
             children: [
             Expanded(child: Text('By ${widget.articles.author}' ,style: AppStyles.bothGrayMed12,)),

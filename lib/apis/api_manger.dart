@@ -5,13 +5,19 @@ import 'package:news/apis/api_const.dart';
 import 'package:news/models/NewsResponse.dart';
 import 'package:news/models/SourceResponse.dart';
 class ApiManger{
-  static Future<SourceResponse> getSource(String categoryId) async{
+  static ApiManger? _instance ;
+  ApiManger._();
+  static ApiManger getInstance(){
+    _instance ??= ApiManger._();
+    return _instance!;
+  }
+   Future<SourceResponse> getSource(String categoryId) async{
     /*
     https://newsapi.org/v2/top-headlines/sources?apiKey=0031254f08b142978c24db81550d0808
     */
     Uri url = Uri.https(ApiConst.baseUrl,ApiConst.sourceApi,{
       'apiKey':ApiConst.apiKey,
-      'category':categoryId
+      'category':categoryId,
     });
     try{
       var response = await http.get(url);
@@ -24,10 +30,10 @@ class ApiManger{
     }
 
   }
-  static Future<NewsResponse> getNewsBySourceId(String sourceId)async{
+   Future<NewsResponse> getNewsBySourceId(String sourceId)async{
     Uri url = Uri.https(ApiConst.baseUrl,ApiConst.newsApi,{
       'apiKey':ApiConst.apiKey,
-      'sources':sourceId
+      'sources':sourceId,
     });
     print('URL: $url');
     try{
