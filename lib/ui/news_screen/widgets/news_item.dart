@@ -1,84 +1,83 @@
-import 'package:flutter/material.dart';
-import 'package:news/ui/news_screen/widgets/news_container.dart';
-import 'package:news/utils/app_const.dart';
 
-import '../../../apis/api_manger.dart';
-import '../../../models/NewsResponse.dart';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/ui/news_screen/cubit/news_screen_states.dart';
+import 'package:news/ui/news_screen/widgets/news_container.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_styles.dart';
+import '../cubit/news_screen_view_model.dart';
 
-class NewsItem extends StatefulWidget {
+class NewsItem extends StatelessWidget {
   Function(String) onSourceChanged;
+  NewsScreenViewModel bloc;
   String sourceId;
-   NewsItem({super.key,required this.newsFuture,required this.onSourceChanged,required this.sourceId});
-  Future<NewsResponse>? newsFuture;
+   NewsItem({super.key,required this.onSourceChanged,required this.sourceId,required this.bloc});
 
-  @override
-  State<NewsItem> createState() => _NewsItemState();
-}
-
-class _NewsItemState extends State<NewsItem> {
   @override
   Widget build(BuildContext context) {
-    var appConst =AppConst(context);
-    return FutureBuilder(
-      future: widget.newsFuture,
-      builder: (context, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return Center(
-            child: CircularProgressIndicator(
-              color: AppColors.gray,
-            ),
-          );
-        }
-        else if (snapshot.hasError){
-          return Column(
-            children: [
-              Text('SomeThing went wrong',style: AppStyles.bothGrayMed12,),
-              ElevatedButton(onPressed: (){
-                setState(() {
-                  widget.onSourceChanged(widget.sourceId);
-                });
-                ;},
-                  child: Text('Try Again',style: AppStyles.lightBold16,)
-              )
-            ],
-          );
-        }
-        else if (snapshot.hasData && snapshot.data?.status != 'ok'){
-          return Column(
-            children: [
-              Text(snapshot.data?.message??'some thing went wrong',
-                style:  AppStyles.bothGrayMed12.copyWith(
-                    fontSize: 20
-                ),
-              ),
-              ElevatedButton(onPressed: (){
-                setState(() {
-                  ApiManger.getNewsBySourceId(widget.sourceId);
-                });
-              },
-                  child: Text('Try Again',style: AppStyles.lightBold16,)
-              )
-            ],
-          );
-        }
-        var newsList = snapshot.data?.articles??[];
-        return widget.newsFuture == null?
-        Center(
-          child: CircularProgressIndicator(
-            color: AppColors.gray,
-          ),
-        )
-            :
-        ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            return NewsContainer(articles: newsList[index]);
-          },
-          itemCount: newsList.length,
 
-        );
-      },);
+    return BlocBuilder<NewsScreenViewModel,NewsScreenState>(
+      buildWhen: (previous, current) {
+        return current is NewsLoadingState ||
+            current is NewsSuccessState ||
+            current is NewsErrorState ||
+        current is EmptyArticlesState
+        ;
+      },
+        builder: (context, state) {
+          if (state is NewsLoadingState){
+            return Center(child: CircularProgressIndicator(color: AppColors.gray,),);
+          }
+          else if(state is NewsErrorState){
+            return Column(
+              children: [
+                Text(bloc.newsErrMsg,style: AppStyles.bothGrayMed12,),
+                ElevatedButton(onPressed: (){
+                  bloc.loadNews(sourceId)
+                  ;},
+                    child: Text('Try Again',style: AppStyles.lightBold16,)
+                )
+              ],
+            );
+          }
+          else if (state is EmptyArticlesState){
+            return Center(child: Text("No articles published yet",style: AppStyles.bothGrayMed12.copyWith(fontSize: 20),),);
+          }
+          else if (state is NewsSuccessState){
+            return  ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return InkWell(
+                    onTap: () {
+                      final url = bloc.newsList[index].url;
+                        log(url.toString());
+                      if (url != null && url.isNotEmpty) {
+                        bloc.openLink(url);
+                      }
+                    },
+                    child: NewsContainer(articles: bloc.newsList[index]));
+              },
+              itemCount: bloc.newsList.length,
+
+            );
+          }
+          else {
+            return  Column(
+              children: [
+                Text(bloc.newsErrMsg,style: AppStyles.bothGrayMed12,),
+                ElevatedButton(onPressed: (){
+                  bloc.loadSources(sourceId)
+                  ;},
+                    child: Text('Try Again',style: AppStyles.lightBold16,)
+                )
+              ],
+            );
+          }
+        },
+
+    );
+
   }
 }

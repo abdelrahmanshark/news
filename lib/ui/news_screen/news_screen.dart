@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news/apis/api_manger.dart';
+import 'package:news/ui/news_screen/cubit/news_screen_view_model.dart';
 import 'package:news/ui/news_screen/widgets/news_item.dart';
 import 'package:news/ui/news_screen/widgets/news_tap_bar.dart';
 import 'package:news/ui/home/widgets/side_drawer.dart';
@@ -22,6 +24,7 @@ class _NewsScreenState extends State<NewsScreen> {
   late String sourceTitle;
   late String sourceId;
   bool isInitialized = false;
+  late var bloc;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -31,27 +34,9 @@ class _NewsScreenState extends State<NewsScreen> {
       sourceId = arg['id'];
       sourceTitle = arg['title'];
       isInitialized = true;
-      loadSources();
+       bloc = BlocProvider.of<NewsScreenViewModel>(context)..loadSources(sourceId);
+
     }
-  }
-
-  Future<void> loadSources()async{
-    setState(() {
-      sourcesFuture =  ApiManger.getSource(sourceId);
-    });
-    var id = await sourcesFuture!;
-    selectedSourceId = id.sources?[0].id??'';
-    loadNews(selectedSourceId);
-  }
-  Future<SourceResponse>? sourcesFuture;
-  String selectedSourceId  = '';
-  Future<NewsResponse>? newsFuture;
-
-  void loadNews(String sourceId){
-    setState(() {
-      selectedSourceId = sourceId;
-      newsFuture = ApiManger.getNewsBySourceId(selectedSourceId);
-    });
   }
 
   @override
@@ -76,20 +61,22 @@ class _NewsScreenState extends State<NewsScreen> {
         ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             flex: 1,
             child: NewsTapBar(onSourceChange: (id) {
-              loadNews(id);
-            },sourcesFuture: sourcesFuture,),
+              bloc.loadNews(id);
+
+            },bloc: bloc,sourceId: sourceId,),
           ),
           Expanded(
             flex: 7,
-            child: NewsItem(newsFuture: newsFuture,
+            child: NewsItem(
                 onSourceChanged: (id) {
-                  loadNews(id);
+                  bloc.loadNews(id);
                 },
-                sourceId: selectedSourceId),
+                sourceId: bloc.selectedSourceId,bloc: bloc,),
           ),
         ],
       ),
