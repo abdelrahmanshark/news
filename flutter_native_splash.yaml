@@ -1,0 +1,14 @@
+#  flutter pub add flutter_native_splash
+
+# Pre-Android 12 and iOS show only the background color; the Flutter splash animates the logo in.
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#171717"
+  android_12:
+    #App icon without an icon background should be 1152×1152 pixels, and fit within a circle 768 pixels in diameter.
+    image: assets/branding/splash_android12_light.png
+    color: "#FFFFFF"
+    image_dark: assets/branding/splash_android12_dark.png
+    color_dark: "#171717"
+  web: false
+  #  dart run flutter_native_splash:create --path=flutter_native_splash.yaml

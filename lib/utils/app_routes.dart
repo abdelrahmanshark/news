@@ -1,4 +1,5 @@
 class AppRoutes {
-  static const String homeScreenRouteName = 'Home Screen';
-  static const String newsScreenRouteName = 'News Screen';
+  static const String splashRouteName = 'splash';
+  static const String homeRouteName = 'home';
+  static const String newsRouteName = 'news';
 }
