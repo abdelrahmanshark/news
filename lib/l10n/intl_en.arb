@@ -1,0 +1,89 @@
+{
+  "@@locale": "en",
+  "appName": "News App",
+  "home": "Home",
+  "goToHome": "Go to home",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "language": "Language",
+  "english": "English",
+  "arabic": "العربية",
+  "categoryTop": "Top",
+  "categoryBreaking": "Breaking",
+  "categoryWorld": "World",
+  "categoryDomestic": "Domestic",
+  "categoryPolitics": "Politics",
+  "categoryBusiness": "Business",
+  "categoryTechnology": "Technology",
+  "categoryScience": "Science",
+  "categoryHealth": "Health",
+  "categorySports": "Sports",
+  "categoryEntertainment": "Entertainment",
+  "categoryEducation": "Education",
+  "categoryEnvironment": "Environment",
+  "categoryFood": "Food",
+  "categoryLifestyle": "Lifestyle",
+  "categoryTourism": "Tourism",
+  "categoryCrime": "Crime",
+  "categoryOther": "Other",
+  "viewAll": "View All",
+  "searchCategories": "Search categories",
+  "filterAll": "All",
+  "filterFavorites": "Favorites",
+  "noCategoriesFound": "No categories found",
+  "noFavoriteCategories": "No favorite categories yet",
+  "addToFavorites": "Add to favorites",
+  "removeFromFavorites": "Remove from favorites",
+  "searchNews": "Search news",
+  "byAuthor": "By {author}",
+  "@byAuthor": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "justNow": "Just now",
+  "minutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noArticles": "No articles published yet",
+  "openTheLink": "Open the link",
+  "somethingWentWrong": "Something went wrong. Please try again.",
+  "offlineNoCache": "You are offline and nothing is saved yet.",
+  "checkConnection": "Please check your internet connection and try again.",
+  "country": "Country",
+  "allCountries": "All Countries",
+  "searchCountry": "Search countries",
+  "noCountriesFound": "No countries found",
+  "countryName": "{code, select, ae {United Arab Emirates} ar {Argentina} at {Austria} au {Australia} be {Belgium} bg {Bulgaria} br {Brazil} ca {Canada} ch {Switzerland} cn {China} co {Colombia} cu {Cuba} cz {Czechia} de {Germany} eg {Egypt} fr {France} gb {United Kingdom} gr {Greece} hk {Hong Kong} hu {Hungary} id {Indonesia} ie {Ireland} il {Israel} in {India} it {Italy} jp {Japan} kr {South Korea} lt {Lithuania} lv {Latvia} ma {Morocco} mx {Mexico} my {Malaysia} ng {Nigeria} nl {Netherlands} no {Norway} nz {New Zealand} ph {Philippines} pl {Poland} pt {Portugal} ro {Romania} rs {Serbia} ru {Russia} sa {Saudi Arabia} se {Sweden} sg {Singapore} si {Slovenia} sk {Slovakia} th {Thailand} tr {Türkiye} tw {Taiwan} ua {Ukraine} us {United States} ve {Venezuela} za {South Africa} other {Other}}",
+  "@countryName": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  }
+}
